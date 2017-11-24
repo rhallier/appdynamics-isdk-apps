@@ -22,13 +22,8 @@
 		<div class="container">
 	
 			<div class="starter-template">
-				<h1>Entry points</h1>
-				<div class="alert alert-info" role="alert" th:if="${message!=null}" th:text="${message}"></div>
-				<div class="alert alert-danger" role="alert" th:if="${errormsg!=null}" th:text="${errormsg}"></div>
-				<ul>
-					<li><a th:href="@{/httperror}">Http error</a></li>
-					<li><a th:href="@{/tcpclient}">TCP Client -> TCP Server</a></li>
-				</ul>
+	            <h2>Oops. Something went wrong</h2>
+				<div class="alert alert-danger" role="alert" th:text="${status + ' ' + error}"></div>
 			</div>
 	
 		</div>

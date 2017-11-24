@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,34 +22,22 @@ public class ApplicationController {
 
 	@RequestMapping("/tcpclient")
     String tcpClient(Map<String, Object> model) {
-		String message = "TCP message sent succesfully!";
-		
 		try {
 			new TcpClient("localhost", 8088).startClient();
+			model.put("message", "TCP message sent succesfully!");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
-			message="ERROR : "+e.getMessage();
+			model.put("errormsg",e.getMessage());
 		}
-		model.put("message",message);
         return "index";
     }
 
 	@RequestMapping("/httperror")
-    String httpError(Map<String, Object> model, HttpServletResponse response) {
-		int errorCode = new Random().nextBoolean() ? 404 : 500;
+    String httpError(Map<String, Object> model, HttpServletResponse response) throws IOException, InterruptedException {
+		int errorCode = new Random().nextBoolean() ? HttpStatus.NOT_FOUND.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
 
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			response.sendError(errorCode);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Thread.sleep(500);
+		response.sendError(errorCode);
 		model.put("message","Error code : "+String.valueOf(errorCode));
         return "index";
     }
