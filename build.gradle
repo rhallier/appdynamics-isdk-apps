@@ -41,9 +41,9 @@ sourceSets {
 }
 
 task tcpServerJar(type: Jar) {
-    outputs.files "bin/TcpServer.jar"
+    outputs.files "build/TcpServer.jar"
     inputs.files sourceSets.tcpServer.output
-    destinationDir file("bin")
+    destinationDir file("build")
     archiveName = "TcpServer.jar"
     from sourceSets.tcpServer.output
     manifest {
